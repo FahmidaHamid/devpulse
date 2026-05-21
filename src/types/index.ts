@@ -1,0 +1,11 @@
+export enum ISSUE_TYPE {
+  BUG = "BUG",
+  REATURE_REQUEST = "FEATURE_REQUEST",
+}
+
+export enum ISSUE_STATUS {
+  OPEN = "OPEN",
+  IN_PROGRESS = "IN_PROGRESS",
+  RESOLVED = "RESOLVED",
+}
+
