@@ -8,9 +8,7 @@
   - Once a new user is registered, the system sends a 201 (created) message, reflecting a successful post.
   - Once a user provides correct email and password, the system sends a 200 (okay) message, reflecting a successful login.
 
-## Live Link:
-
-    url: https://devpulse-one-ruby.vercel.app/
+## Live Link: (https://devpulse-one-ruby.vercel.app/)
 
 ## API EndPoints:
 
