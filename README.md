@@ -17,4 +17,4 @@
   - login: POST /api/auth/login
 
 - Issues:
-  - not yet created...
+  - create an issue: POST /api/issues (headers.authentication must have the token)
