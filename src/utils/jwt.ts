@@ -1,14 +1,10 @@
 import config from "../config";
-import { IUser } from "../middleware/users/user.interface";
+import { IUser } from "../types";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 export const signToken = (payload: IUser & { id: number }) => {
   
-   //accessToken ==> data access
-  // refreshToken ==> regenerate access token
-
   const accessToken = jwt.sign(payload, config.jwt_secret, { expiresIn: "7d" });
-
   const refreshToken = jwt.sign(payload, config.ref_secret, {
     expiresIn: "30d",
   });

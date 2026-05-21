@@ -1,16 +1,17 @@
 import { Pool } from "pg";
 import config from "../config";
-import { USERROLE } from "../middleware/users/user.interface";
+import { USERROLE } from "../types";
 import { ISSUE_STATUS, ISSUE_TYPE } from "../types";
 
 export const pool = new Pool({ connectionString: config.connection_string });
 
 export const initializeDatabase = async () => {
+  console.log(config.connection_string);
   try {
     await pool.query(`
   CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100),
+    name VARCHAR(100) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
 
@@ -26,7 +27,8 @@ export const initializeDatabase = async () => {
     id SERIAL PRIMARY KEY,
 
     title VARCHAR(150) NOT NULL,
-    description TEXT,
+    description TEXT NOT NULL 
+    CHECK (char_length(description) >= 20),
 
     reporter_id INT NOT NULL
       REFERENCES users(id)

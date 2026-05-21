@@ -10,7 +10,3 @@ const main = async () => {
 };
 
 main();
-
-// app.listen(3000, () => {
-//   console.log("Running");
-// });

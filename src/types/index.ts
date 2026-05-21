@@ -1,11 +1,21 @@
 export enum ISSUE_TYPE {
-  BUG = "BUG",
-  REATURE_REQUEST = "FEATURE_REQUEST",
+  BUG = "bug",
+  REATURE_REQUEST = "feature_request",
 }
 
 export enum ISSUE_STATUS {
-  OPEN = "OPEN",
-  IN_PROGRESS = "IN_PROGRESS",
-  RESOLVED = "RESOLVED",
+  OPEN = "open",
+  IN_PROGRESS = "in_progress",
+  RESOLVED = "resolved",
 }
 
+export enum USERROLE {
+  CONTRIBUTOR = "contributor",
+  MAINTAINER = "maintainer",
+}
+export interface IUser {
+  name: string;
+  email: string;
+  password: string;
+  role?: USERROLE;
+}

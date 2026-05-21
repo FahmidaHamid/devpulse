@@ -1,5 +1,5 @@
 import { pool } from "../../db";
-import { IUser, USERROLE } from "../../middleware/users/user.interface";
+import { IUser, USERROLE } from "../../types";
 import bcrypt from "bcrypt";
 
 class AuthService {
@@ -7,7 +7,7 @@ class AuthService {
     const { name, email, role, password } = user;
     //console.log(name);
     const hashedvalue = await bcrypt.hash(password, 10);
-    console.log(hashedvalue);
+    //console.log(hashedvalue);
     const res = await pool.query(
       `
       INSERT INTO users (name, email, password_hash, role)
