@@ -10,7 +10,7 @@
 
 ## Live Link:
 
-    - https://devpulse-one-ruby.vercel.app/
+    url: https://devpulse-one-ruby.vercel.app/
 
 ## API EndPoints:
 

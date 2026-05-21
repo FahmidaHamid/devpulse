@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 
 class AuthService {
   async createUser(user: IUser & { password: string }) {
+    
     const { name, email, role, password } = user;
     //console.log(name);
     const hashedvalue = await bcrypt.hash(password, 10);
