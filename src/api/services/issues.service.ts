@@ -79,9 +79,8 @@ class IssueRelateService {
         query += ` ORDER BY created_at ASC`;
       }
 
-
       const result = await pool.query(query, values);
-      
+
       const formatted = result.rows.map((issue) => ({
         id: issue.id,
         title: issue.title,
@@ -104,6 +103,56 @@ class IssueRelateService {
     } catch (error) {
       return error;
     }
+  }
+
+  async getIssueById(id: number) {
+    const query = `
+    SELECT
+      issues.id,
+      issues.title,
+      issues.description,
+      issues.type,
+      issues.status,
+      issues.created_at,
+      issues.updated_at,
+
+      users.id AS reporter_id,
+      users.name AS reporter_name,
+      users.email AS reporter_email,
+      users.role AS reporter_role
+
+    FROM issues
+
+    JOIN users
+    ON issues.reporter_id = users.id
+
+    WHERE issues.id = $1
+  `;
+
+    const result = await pool.query(query, [id]);
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    const row = result.rows[0];
+
+    return {
+      id: row.id,
+      title: row.title,
+      description: row.description,
+      type: row.type,
+      status: row.status,
+      created_at: row.created_at,
+      updated_at: row.updated_at,
+
+      reporter: {
+        id: row.reporter_id,
+        name: row.reporter_name,
+        email: row.reporter_email,
+        role: row.reporter_role,
+      },
+    };
   }
 }
 

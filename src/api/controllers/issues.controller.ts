@@ -12,7 +12,6 @@ export const createANewIssue = async (req: Request, res: Response) => {
     ...body,
     reporter_id: user.id,
   };
-  //console.log("issue data: ", issueData);
 
   const newIssue = await issuesService.createIssue(issueData);
   if (!newIssue) {
@@ -24,8 +23,6 @@ export const createANewIssue = async (req: Request, res: Response) => {
     { message: "An Issue Created Successfully", data: newIssue, error: false },
     201,
   );
-
-  //res.status(201).json({ message: "posting an issue" });
 };
 
 export const getAllTheIssues = async (req: Request, res: Response) => {
@@ -52,4 +49,53 @@ export const getAllTheIssues = async (req: Request, res: Response) => {
     },
     200,
   );
+};
+
+// export const getOneIssueById = async (req: Request, res: Response) => {
+//   const id = Number(req.params.id);
+
+//   const output = await issuesService.getIssueById(id);
+//   console.log(output);
+//   res.send("Trying to get one specific issue");
+// };
+
+export const getOneIssueById = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+
+    if (!Number.isInteger(id)) {
+      return sendResponse(
+        res,
+        {
+          message: "Invalid issue id",
+          data: null,
+          error: true,
+        },
+        400,
+      );
+    }
+
+    const output = await issuesService.getIssueById(id);
+
+    if (!output)
+      return sendResponse(
+        res,
+        { message: "Issue not found", error: true },
+        404,
+      );
+
+    return sendResponse(
+      res,
+      { message: "Issue retrieved successfully", data: output, error: false },
+      200,
+    );
+    //res.status(200).json(output);
+  } catch (error) {
+    //console.error(error);
+    return sendResponse(
+      res,
+      { message: "Failed to fetch", data: error, error: true },
+      500,
+    );
+  }
 };
