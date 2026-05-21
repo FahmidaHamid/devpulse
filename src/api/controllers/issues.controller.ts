@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import issuesService from "../services/issues.service";
 import { sendResponse } from "../../utils/sendResponse";
+import { IssueStatus, IssueType, SortOption } from "../../types";
+import { isIssueStatus, isIssueType, isSort } from "../../utils/typeCheckers";
 
 export const createANewIssue = async (req: Request, res: Response) => {
   const body = req.body;
@@ -28,11 +30,18 @@ export const createANewIssue = async (req: Request, res: Response) => {
 
 export const getAllTheIssues = async (req: Request, res: Response) => {
   const { sort, type, status } = req.query;
+  let safe_sort: SortOption | undefined;
+  let query_type: IssueType | undefined;
+  let query_status: IssueStatus | undefined;
+
+  safe_sort = isSort(sort) ? sort : undefined;
+  query_type = isIssueType(type) ? type : undefined;
+  query_status = isIssueStatus(status) ? status : undefined;
 
   const existing_issues = await issuesService.getAllTheIssues({
-    sort,
-    query_type: type,
-    query_status: status,
+    safe_sort,
+    query_type,
+    query_status,
   });
   return sendResponse(
     res,

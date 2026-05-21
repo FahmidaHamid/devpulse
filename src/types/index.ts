@@ -1,6 +1,6 @@
 export enum ISSUE_TYPE {
   BUG = "bug",
-  REATURE_REQUEST = "feature_request",
+  FEATURE_REQUEST = "feature",
 }
 
 export enum ISSUE_STATUS {
@@ -27,8 +27,12 @@ export interface IIssues {
   status?: ISSUE_STATUS;
 }
 
+export type SortOption = "newest" | "oldest" | undefined;
+export type IssueType = "bug" | "feature" | undefined;
+export type IssueStatus = "open" | "in_progress" | "resolved" | undefined;
+
 export type GetIssuesParams = {
-  sort?: string;
-  query_type?: string;
-  query_status?: string;
+  safe_sort?: SortOption;
+  query_type?: IssueType;
+  query_status?: IssueStatus;
 };

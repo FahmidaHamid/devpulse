@@ -39,7 +39,11 @@ class IssueRelateService {
     return result.rows[0];
   }
 
-  async getAllTheIssues({ sort, query_type, query_status }: GetIssuesParams) {
+  async getAllTheIssues({
+    safe_sort,
+    query_type,
+    query_status,
+  }: GetIssuesParams) {
     try {
       let query = `
       SELECT *
@@ -60,9 +64,9 @@ class IssueRelateService {
         query += ` WHERE ` + conditions.join(" AND ");
       }
       // SORTING
-      if (sort === "newest") {
+      if (safe_sort === "newest") {
         query += ` ORDER BY created_at DESC`;
-      } else if (sort === "oldest") {
+      } else if (safe_sort === "oldest") {
         query += ` ORDER BY created_at ASC`;
       }
       const result = await pool.query(query, values);
