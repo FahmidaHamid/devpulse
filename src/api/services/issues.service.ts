@@ -46,8 +46,16 @@ class IssueRelateService {
   }: GetIssuesParams) {
     try {
       let query = `
-      SELECT *
-      FROM issues`;
+      SELECT issues.*,
+
+        users.id AS reporter_id,
+        users.name AS reporter_name,
+        users.email AS reporter_email,
+        users.role AS reporter_role
+
+        FROM issues
+        JOIN users
+            ON issues.reporter_id = users.id`;
 
       const conditions: string[] = [];
       const values: any[] = [];
@@ -63,15 +71,36 @@ class IssueRelateService {
       if (conditions.length > 0) {
         query += ` WHERE ` + conditions.join(" AND ");
       }
+
       // SORTING
       if (safe_sort === "newest") {
         query += ` ORDER BY created_at DESC`;
       } else if (safe_sort === "oldest") {
         query += ` ORDER BY created_at ASC`;
       }
+
+
       const result = await pool.query(query, values);
+      
+      const formatted = result.rows.map((issue) => ({
+        id: issue.id,
+        title: issue.title,
+        description: issue.description,
+        type: issue.type,
+        status: issue.status,
+        created_at: issue.created_at,
+        updated_at: issue.updated_at,
+
+        reporter: {
+          id: issue.reporter_id,
+          name: issue.reporter_name,
+          email: issue.reporter_email,
+          role: issue.reporter_role,
+        },
+      }));
+
       //console.log(result);
-      return result.rows;
+      return formatted;
     } catch (error) {
       return error;
     }
