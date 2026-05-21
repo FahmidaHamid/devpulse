@@ -25,3 +25,22 @@ export const createANewIssue = async (req: Request, res: Response) => {
 
   //res.status(201).json({ message: "posting an issue" });
 };
+
+export const getAllTheIssues = async (req: Request, res: Response) => {
+  const { sort, type, status } = req.query;
+
+  const existing_issues = await issuesService.getAllTheIssues({
+    sort,
+    query_type: type,
+    query_status: status,
+  });
+  return sendResponse(
+    res,
+    {
+      message: "An Issue Created Successfully",
+      data: existing_issues,
+      error: false,
+    },
+    200,
+  );
+};

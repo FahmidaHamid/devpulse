@@ -1,23 +1,21 @@
 import { Router } from "express";
 import { authenticate } from "../../middleware/authenticate_and_authoriza";
-import { createANewIssue } from "../controllers/issues.controller";
+import {
+  createANewIssue,
+  getAllTheIssues,
+} from "../controllers/issues.controller";
 
 const router = Router();
 
 router.post("/", authenticate, createANewIssue);
 
-router.get("/", async (req, res) => {
-  //GET /api/issues?sort=newest
-
-  console.log(req);
-  res.status(200).json({ message: "posting an issue" });
-});
+router.get("/", getAllTheIssues);
 
 router.get("/:id", async (req, res) => {
   //GET /api/issues?sort=newest
 
   console.log(req);
-  res.status(200).json({ message: "posting an issue" });
+  res.status(200).json({ message: "getting only one issue" });
 });
 
 // PATCH /api/issues/:id

@@ -26,3 +26,9 @@ export interface IIssues {
   type?: ISSUE_TYPE;
   status?: ISSUE_STATUS;
 }
+
+export type GetIssuesParams = {
+  sort?: string;
+  query_type?: string;
+  query_status?: string;
+};

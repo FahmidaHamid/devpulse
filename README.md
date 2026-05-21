@@ -18,3 +18,4 @@
 
 - Issues:
   - create an issue: POST /api/issues (headers.authentication must have the token)
+  - get all the issues: GET /api/issues?sort=newest&type=bug

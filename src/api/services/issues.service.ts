@@ -1,4 +1,9 @@
-import { IIssues, ISSUE_STATUS, ISSUE_TYPE } from "../../types";
+import {
+  GetIssuesParams,
+  IIssues,
+  ISSUE_STATUS,
+  ISSUE_TYPE,
+} from "../../types";
 import { pool } from "../../db";
 
 class IssueRelateService {
@@ -32,6 +37,40 @@ class IssueRelateService {
 
     const result = await pool.query(query, values);
     return result.rows[0];
+  }
+
+  async getAllTheIssues({ sort, query_type, query_status }: GetIssuesParams) {
+    try {
+      let query = `
+      SELECT *
+      FROM issues`;
+
+      const conditions: string[] = [];
+      const values: any[] = [];
+
+      if (query_type) {
+        values.push(query_type);
+        conditions.push(`type = $${values.length}`);
+      }
+      if (query_status) {
+        values.push(query_status);
+        conditions.push(`status = $${values.length}`);
+      }
+      if (conditions.length > 0) {
+        query += ` WHERE ` + conditions.join(" AND ");
+      }
+      // SORTING
+      if (sort === "newest") {
+        query += ` ORDER BY created_at DESC`;
+      } else if (sort === "oldest") {
+        query += ` ORDER BY created_at ASC`;
+      }
+      const result = await pool.query(query, values);
+      //console.log(result);
+      return result.rows;
+    } catch (error) {
+      return error;
+    }
   }
 }
 
