@@ -6,6 +6,7 @@ import {
   getOneIssueById,
   updateIssueById,
 } from "../controllers/issues.controller";
+import { validateIssueUpdate } from "../../middleware/validateUpdateIssues";
 
 const router = Router();
 
@@ -17,7 +18,7 @@ router.get("/:id", getOneIssueById);
 
 // PATCH /api/issues/:id
 // Success Response (200 OK)
-router.patch("/:id", authenticate, updateIssueById);
+router.patch("/:id", authenticate, validateIssueUpdate, updateIssueById);
 
 // DELETE /api/issues/:id
 router.delete("/:id", async (req, res) => {
