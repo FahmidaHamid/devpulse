@@ -19,3 +19,10 @@ export interface IUser {
   password: string;
   role?: USERROLE;
 }
+
+export interface IIssues {
+  title: string;
+  description: string;
+  type?: ISSUE_TYPE;
+  status?: ISSUE_STATUS;
+}

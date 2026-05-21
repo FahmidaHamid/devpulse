@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 
 class AuthService {
   async createUser(user: IUser & { password: string }) {
-    
     const { name, email, role, password } = user;
     //console.log(name);
     const hashedvalue = await bcrypt.hash(password, 10);
@@ -35,6 +34,16 @@ class AuthService {
 
     const isValid = await bcrypt.compare(password, password_hash);
     return isValid ? safeUser : null;
+  }
+
+  async getUserById(id: number) {
+    const result = await pool.query(`SELECT * FROM users WHERE id=${id}`);
+
+    if (result.rows.length === 0) return null;
+    const { password_hash, ...user } = result.rows[0];
+    //const isValid = await bcrypt.compare(password, password_hash);
+
+    return user;
   }
 }
 

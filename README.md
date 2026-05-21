@@ -13,8 +13,8 @@
 ## API EndPoints:
 
 - Users:
-  - register: api/auth/signup
-  - login: api/auth/login
+  - register: POST /api/auth/signup
+  - login: POST /api/auth/login
 
 - Issues:
   - not yet created...
