@@ -51,14 +51,6 @@ export const getAllTheIssues = async (req: Request, res: Response) => {
   );
 };
 
-// export const getOneIssueById = async (req: Request, res: Response) => {
-//   const id = Number(req.params.id);
-
-//   const output = await issuesService.getIssueById(id);
-//   console.log(output);
-//   res.send("Trying to get one specific issue");
-// };
-
 export const getOneIssueById = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
@@ -98,4 +90,56 @@ export const getOneIssueById = async (req: Request, res: Response) => {
       500,
     );
   }
+};
+
+export const updateIssueById = async (req: Request, res: Response) => {
+  //console.log(req);
+
+  try {
+    const id = Number(req.params.id);
+
+    if (!Number.isInteger(id)) {
+      return sendResponse(
+        res,
+        {
+          message: "Invalid Issue Id, Update Failed",
+          data: null,
+          error: true,
+        },
+        400,
+      );
+    }
+    const { title, description, type, status } = req.body;
+
+    const output = await issuesService.updateIssueById({
+      id,
+      title,
+      description,
+      type,
+      status,
+    });
+
+    if (!output)
+      return sendResponse(
+        res,
+        { message: "Issue was not found, Update Failed", error: true },
+        404,
+      );
+
+    return sendResponse(
+      res,
+      { message: "Issue Updated successfully", data: output, error: false },
+      200,
+    );
+    //res.status(200).json(output);
+  } catch (error) {
+    //console.error(error);
+    return sendResponse(
+      res,
+      { message: "Failed to fetch", data: error, error: true },
+      500,
+    );
+  }
+
+  //res.status(200).json({ message: "updating an issue" });
 };

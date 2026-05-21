@@ -154,6 +154,31 @@ class IssueRelateService {
       },
     };
   }
+
+  async updateIssueById(payload: any) {
+    const { id, title, description, type, status } = payload;
+
+    const query = `
+      UPDATE issues
+      SET
+        title = COALESCE($1, title),
+        description = COALESCE($2, description),
+        type = COALESCE($3, type),
+        status = COALESCE($4, status),
+        updated_at = NOW()
+      WHERE id = $5
+      RETURNING *;
+    `;
+
+    const values = [title, description, type, status, Number(id)];
+
+    const result = await pool.query(query, values);
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+    return result.rows[0];
+  }
 }
 
 export default new IssueRelateService();
