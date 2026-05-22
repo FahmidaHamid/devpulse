@@ -4,7 +4,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import { IssueStatus, IssueType, SortOption } from "../../types";
 import { isIssueStatus, isIssueType, isSort } from "../../utils/typeCheckers";
 
-export const createANewIssue = async (req: Request, res: Response) => {
+const createANewIssue = async (req: Request, res: Response) => {
   const body = req.body;
   const user = req.user;
 
@@ -25,7 +25,7 @@ export const createANewIssue = async (req: Request, res: Response) => {
   );
 };
 
-export const getAllTheIssues = async (req: Request, res: Response) => {
+const getAllTheIssues = async (req: Request, res: Response) => {
   const { sort, type, status } = req.query;
   let safe_sort: SortOption | undefined;
   let query_type: IssueType | undefined;
@@ -43,7 +43,7 @@ export const getAllTheIssues = async (req: Request, res: Response) => {
   return sendResponse(
     res,
     {
-      message: "An Issue Created Successfully",
+      message: "Issues Extracted Successfully",
       data: existing_issues,
       error: false,
     },
@@ -51,7 +51,7 @@ export const getAllTheIssues = async (req: Request, res: Response) => {
   );
 };
 
-export const getOneIssueById = async (req: Request, res: Response) => {
+const getOneIssueById = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
 
@@ -92,7 +92,7 @@ export const getOneIssueById = async (req: Request, res: Response) => {
   }
 };
 
-export const updateIssueById = async (req: Request, res: Response) => {
+const updateOneIssueById = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
 
@@ -131,7 +131,7 @@ export const updateIssueById = async (req: Request, res: Response) => {
   //res.status(200).json({ message: "updating an issue" });
 };
 
-export const deleteOneIssueById = async (req: Request, res: Response) => {
+const deleteOneIssueById = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
 
@@ -156,4 +156,12 @@ export const deleteOneIssueById = async (req: Request, res: Response) => {
       500,
     );
   }
+};
+
+export const issueController = {
+  createANewIssue,
+  getAllTheIssues,
+  getOneIssueById,
+  updateOneIssueById,
+  deleteOneIssueById,
 };

@@ -2,13 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import { sendResponse } from "../utils/sendResponse";
 import { USERROLE } from "../types";
 
-export const validateIssueDelete = async (
+export const validateIssueOnDelete = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   const { role } = req.user;
-  //console.log("User : ", req.user);
+
   const issueId = Number(req.params.id);
 
   // VALIDATE ISSUE ID

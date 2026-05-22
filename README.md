@@ -18,4 +18,10 @@
 
 - Issues:
   - create an issue: POST /api/issues (headers.authentication must have the token)
-  - get all the issues: GET /api/issues?sort=newest&type=bug
+  - get all the issues: GET /api/issues
+    - options: sort, search by type or status
+  - get one issue: GET /api/issues/:id
+
+  - update an issue: PATCH /api/issues/:id
+
+  - delete an issue: DELETE /api/issues/:id

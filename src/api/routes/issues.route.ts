@@ -1,26 +1,29 @@
 import { Router } from "express";
-import { authenticate } from "../../middleware/authenticate_and_authoriza";
-import {
-  createANewIssue,
-  deleteOneIssueById,
-  getAllTheIssues,
-  getOneIssueById,
-  updateIssueById,
-} from "../controllers/issues.controller";
-import { validateIssueUpdate } from "../../middleware/validateUpdateIssues";
-import { validateIssueDelete } from "../../middleware/validateIssueDelete";
+import { authenticate } from "../../middleware/authenticate";
+import { validateIssueOnUpdate } from "../../middleware/validateIssueOnUpdate";
+import { validateIssueOnDelete } from "../../middleware/validateIssueOnDelete";
+import { issueController } from "../controllers/issues.controller";
 
 const router = Router();
 
-router.post("/", authenticate, createANewIssue);
+router.post("/", authenticate, issueController.createANewIssue);
 
-router.get("/", getAllTheIssues);
+router.get("/", issueController.getAllTheIssues);
 
-router.get("/:id", getOneIssueById);
+router.get("/:id", issueController.getOneIssueById);
 
-router.patch("/:id", authenticate, validateIssueUpdate, updateIssueById);
+router.patch(
+  "/:id",
+  authenticate,
+  validateIssueOnUpdate,
+  issueController.updateOneIssueById,
+);
 
-// DELETE /api/issues/:id
-router.delete("/:id", authenticate, validateIssueDelete, deleteOneIssueById);
+router.delete(
+  "/:id",
+  authenticate,
+  validateIssueOnDelete,
+  issueController.deleteOneIssueById,
+);
 
 export const issuesRouter = router;
