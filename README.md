@@ -34,35 +34,27 @@
 
 ## Database Schema:
 
-┌──────────────────────┐
-│        users         │
-├──────────────────────┤
-│ id (PK)              │
-│ name                 │
-│ email (UNIQUE)       │
-│ role                 │
-│ created_at           │
-│ updated_at           │
-└──────────┬───────────┘
-           │
-           │ 1-to-Many
-           │
-           ▼
-┌──────────────────────┐
-│        issues        │
-├──────────────────────┤
-│ id (PK)              │
-│ title                │
-│ description          │
-│ type                 │
-│ status               │
-│ reporter_id (FK)     │
-│ created_at           │
-│ updated_at           │
-└──────────────────────┘
+```mermaid
+erDiagram
+    USERS {
+        int id PK
+        string name
+        string email
+        string role
+        timestamp created_at
+        timestamp updated_at
+    }
 
-### Relationship:
-  
-  users.id  --->  issues.reporter_id
+    ISSUES {
+        int id PK
+        string title
+        string description
+        string type
+        string status
+        int reporter_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
 
-
+    USERS ||--o{ ISSUES : reports
+```
