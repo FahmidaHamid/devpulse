@@ -84,6 +84,9 @@ erDiagram
 │   ├── middleware
 │   │   ├── authenticate.ts
 │   │   ├── globalErrorHandler.ts
+│   │   ├── validateAuthPropertiesBeforeLogin.ts
+│   │   ├── validateAuthPropertiesBeforeSignup.ts
+│   │   ├── validateCreateIssue.ts
 │   │   ├── validateIssueOnDelete.ts
 │   │   └── validateIssueOnUpdate.ts
 │   ├── server.ts
@@ -96,9 +99,7 @@ erDiagram
 │       └── typeCheckers.ts
 └── tsconfig.json
 
-11 directories, 23 files
-
-
+11 directories, 26 files
 ```
 
 ### Acknowledgement:
