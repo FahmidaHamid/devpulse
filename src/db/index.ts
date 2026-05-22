@@ -28,7 +28,7 @@ export const initializeDatabase = async () => {
 
     title VARCHAR(150) NOT NULL,
     description TEXT NOT NULL 
-    CHECK (char_length(description) >= 20),
+    CHECK (char_length(description) >= 15),
 
     reporter_id INT NOT NULL
       REFERENCES users(id)

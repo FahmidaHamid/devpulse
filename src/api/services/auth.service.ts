@@ -3,12 +3,19 @@ import { IUser, USERROLE } from "../../types";
 import bcrypt from "bcrypt";
 
 class AuthService {
-
   async createUser(user: IUser & { password: string }) {
     const { name, email, role, password } = user;
-    
+
+    const existingUser = await pool.query(
+      `SELECT * FROM users WHERE email = $1`,
+      [email],
+    );
+
+    if (existingUser.rows.length > 0) {
+      throw new Error("EMAIL_ALREADY_EXISTS");
+    }
+
     const hashedvalue = await bcrypt.hash(password, 10);
-    
     const res = await pool.query(
       `
       INSERT INTO users (name, email, password_hash, role)
@@ -17,7 +24,6 @@ class AuthService {
       [name, email, hashedvalue, role, USERROLE.CONTRIBUTOR],
     );
 
-   
     return res.rows[0];
   }
 

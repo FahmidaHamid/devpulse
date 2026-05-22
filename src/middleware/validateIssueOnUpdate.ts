@@ -3,7 +3,7 @@ import { sendResponse } from "../utils/sendResponse";
 import { ISSUE_STATUS, ISSUE_TYPE, USERROLE } from "../types";
 import issuesService from "../api/services/issues.service";
 
-export const validateIssueOnUpdate = async (
+const validateIssueOnUpdate = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -124,3 +124,5 @@ export const validateIssueOnUpdate = async (
     );
   }
 };
+
+export default validateIssueOnUpdate;

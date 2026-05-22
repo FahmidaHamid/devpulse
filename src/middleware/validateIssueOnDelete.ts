@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { sendResponse } from "../utils/sendResponse";
 import { USERROLE } from "../types";
 
-export const validateIssueOnDelete = async (
+const validateIssueOnDelete = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -36,3 +36,5 @@ export const validateIssueOnDelete = async (
 
   next();
 };
+
+export default validateIssueOnDelete;

@@ -8,44 +8,61 @@ export const authenticate = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const token = req.headers.authorization;
+  try {
+    const token = req.headers.authorization;
 
-  if (!token)
+    if (!token) {
+      return sendResponse(
+        res,
+        {
+          message: "Token Not Found, Unauthorized Access Attempt",
+          error: true,
+        },
+        401,
+      );
+    }
+
+    const payload = verifyToken(token, "access");
+
+    if (!payload) {
+      return sendResponse(
+        res,
+        {
+          message: "Invalid Access Token, Unauthorized Access Attempt",
+          error: true,
+        },
+        401,
+      );
+    }
+
+    const user = await authService.getUserById(payload.id);
+
+    if (!user) {
+      return sendResponse(
+        res,
+        {
+          message: "User Doesn't Exist, Unauthorized Access Attempt",
+          error: true,
+        },
+        401,
+      );
+    }
+
+    req.user = user;
+
+    next();
+  } catch (error) {
+    console.error("JWT Error:", error);
+
     return sendResponse(
       res,
       {
-        message: "Token Not Found, Unauthorized Access Attempt",
+        message: "Invalid or Expired Token",
         error: true,
       },
       401,
     );
-  const payload = verifyToken(token, "access");
-  //console.log(payload);
-
-  if (!payload)
-    return sendResponse(
-      res,
-      {
-        message: "Invalid Access Token, Unauthorized Access Attempt",
-        error: true,
-      },
-      401,
-    );
-
-  const user = await authService.getUserById(payload.id);
-
-  if (!user)
-    return sendResponse(
-      res,
-      {
-        message: "User Doesn't Exist, Unauthorized Access Attempt",
-        error: true,
-      },
-      401,
-    );
-
-  req.user = user; //express.d.ts --> global data type
-  next();
+  }
 };
 
 // export const authorizeByRole = (...roles: Role[]) => {
