@@ -13,15 +13,56 @@
 ## API EndPoints:
 
 - Users:
-  - register: POST /api/auth/signup
-  - login: POST /api/auth/login
+  - **register:** POST /api/auth/signup
+
+  - **login:** POST /api/auth/login
 
 - Issues:
-  - create an issue: POST /api/issues (headers.authentication must have the token)
-  - get all the issues: GET /api/issues
-    - options: sort, search by type or status
-  - get one issue: GET /api/issues/:id
+  - **create a new issue:** POST `/api/issues` - (`headers.authentication` must have a valid JWT token)
+  - **get all the issues:** GET `/api/issues`
+    - options: `sort`, `search` by `type` or `status`
+  - **get one issue:** GET `/api/issues/:id`
 
-  - update an issue: PATCH /api/issues/:id
+  - **update an issue:** PATCH `/api/issues/:id`
+    - must have a valid JWT Token stored in headers.authentication
+    - `maintainer` can update any existing issue irrespective of their status and reporter
+    - `contributor` can only update the issues posted by them, as long as the issues are `open`
 
-  - delete an issue: DELETE /api/issues/:id
+  - **delete an issue:** DELETE /api/issues/:id
+    - must have a valid JWT Token stored in headers.authentication
+    - only `maintainer`s can delete any issue
+
+## Database Schema:
+
+┌──────────────────────┐
+│        users         │
+├──────────────────────┤
+│ id (PK)              │
+│ name                 │
+│ email (UNIQUE)       │
+│ role                 │
+│ created_at           │
+│ updated_at           │
+└──────────┬───────────┘
+           │
+           │ 1-to-Many
+           │
+           ▼
+┌──────────────────────┐
+│        issues        │
+├──────────────────────┤
+│ id (PK)              │
+│ title                │
+│ description          │
+│ type                 │
+│ status               │
+│ reporter_id (FK)     │
+│ created_at           │
+│ updated_at           │
+└──────────────────────┘
+
+### Relationship:
+  
+  users.id  --->  issues.reporter_id
+
+
