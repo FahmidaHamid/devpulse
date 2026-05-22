@@ -102,6 +102,10 @@ erDiagram
 11 directories, 26 files
 ```
 
+### Technical Q/A:
+
+**Link:** (https://www.loom.com/share/09db38282a6a4f4cbc9ef156e9a0f55e)
+
 ### Acknowledgement:
 
 - Aside from getting help from the conceptual sessions and regular modules, I talked to chatgpt throughout the process to help me fix bugs and write the queries.
