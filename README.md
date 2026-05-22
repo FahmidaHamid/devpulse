@@ -58,3 +58,10 @@ erDiagram
 
     USERS ||--o{ ISSUES : reports
 ```
+
+### Acknowledgement:
+
+- Aside from getting help from the conceptual sessions and regular modules, I talked to chatgpt throughout the process to help me fix bugs and write the queries.
+- Overall, it is my work but chatGpt made me save some time.
+- Here is the link (in case you are interested in checking my detailed interactions):
+  - https://chatgpt.com/share/6a0fef28-e4d0-83ea-94a4-a63f3bff0ca3
