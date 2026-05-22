@@ -59,6 +59,48 @@ erDiagram
     USERS ||--o{ ISSUES : reports
 ```
 
+### Project Structure:
+
+```txt
+├── README.md
+├── package-lock.json
+├── package.json
+├── src
+│   ├── api
+│   │   ├── controllers
+│   │   │   ├── auth.controller.ts
+│   │   │   └── issues.controller.ts
+│   │   ├── routes
+│   │   │   ├── auth.route.ts
+│   │   │   └── issues.route.ts
+│   │   └── services
+│   │       ├── auth.service.ts
+│   │       └── issues.service.ts
+│   ├── app.ts
+│   ├── config
+│   │   └── index.ts
+│   ├── db
+│   │   └── index.ts
+│   ├── middleware
+│   │   ├── authenticate.ts
+│   │   ├── globalErrorHandler.ts
+│   │   ├── validateIssueOnDelete.ts
+│   │   └── validateIssueOnUpdate.ts
+│   ├── server.ts
+│   ├── types
+│   │   ├── express.d.ts
+│   │   └── index.ts
+│   └── utils
+│       ├── jwt.ts
+│       ├── sendResponse.ts
+│       └── typeCheckers.ts
+└── tsconfig.json
+
+11 directories, 23 files
+
+
+```
+
 ### Acknowledgement:
 
 - Aside from getting help from the conceptual sessions and regular modules, I talked to chatgpt throughout the process to help me fix bugs and write the queries.
