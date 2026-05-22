@@ -16,8 +16,6 @@ router.get("/", getAllTheIssues);
 
 router.get("/:id", getOneIssueById);
 
-// PATCH /api/issues/:id
-// Success Response (200 OK)
 router.patch("/:id", authenticate, validateIssueUpdate, updateIssueById);
 
 // DELETE /api/issues/:id

@@ -14,7 +14,7 @@ export const authenticate = async (
     return sendResponse(
       res,
       {
-        message: "Token Not Found",
+        message: "Token Not Found, Unauthorized Access Attempt",
         error: true,
       },
       401,
@@ -26,7 +26,7 @@ export const authenticate = async (
     return sendResponse(
       res,
       {
-        message: "Invalid Access Token",
+        message: "Invalid Access Token, Unauthorized Access Attempt",
         error: true,
       },
       401,
@@ -38,7 +38,7 @@ export const authenticate = async (
     return sendResponse(
       res,
       {
-        message: "User Doesn't Exist",
+        message: "User Doesn't Exist, Unauthorized Access Attempt",
         error: true,
       },
       401,

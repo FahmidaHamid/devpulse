@@ -98,17 +98,17 @@ export const updateIssueById = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
 
-    if (!Number.isInteger(id)) {
-      return sendResponse(
-        res,
-        {
-          message: "Invalid Issue Id, Update Failed",
-          data: null,
-          error: true,
-        },
-        400,
-      );
-    }
+    // if (!Number.isInteger(id)) {
+    //   return sendResponse(
+    //     res,
+    //     {
+    //       message: "Invalid Issue Id, Update Failed",
+    //       data: null,
+    //       error: true,
+    //     },
+    //     400,
+    //   );
+    // }
     const { title, description, type, status } = req.body;
 
     const output = await issuesService.updateIssueById({
