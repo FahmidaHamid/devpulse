@@ -2,11 +2,13 @@ import { Router } from "express";
 import { authenticate } from "../../middleware/authenticate_and_authoriza";
 import {
   createANewIssue,
+  deleteOneIssueById,
   getAllTheIssues,
   getOneIssueById,
   updateIssueById,
 } from "../controllers/issues.controller";
 import { validateIssueUpdate } from "../../middleware/validateUpdateIssues";
+import { validateIssueDelete } from "../../middleware/validateIssueDelete";
 
 const router = Router();
 
@@ -19,10 +21,6 @@ router.get("/:id", getOneIssueById);
 router.patch("/:id", authenticate, validateIssueUpdate, updateIssueById);
 
 // DELETE /api/issues/:id
-router.delete("/:id", async (req, res) => {
-  //GET /api/issues?sort=newest
+router.delete("/:id", authenticate, validateIssueDelete, deleteOneIssueById);
 
-  console.log(req);
-  res.status(200).json({ message: "posting an issue" });
-});
 export const issuesRouter = router;

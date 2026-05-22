@@ -9,21 +9,17 @@ export const validateIssueUpdate = async (
   next: NextFunction,
 ) => {
   const { title, description, type, status } = req.body;
-  const { id, role } = req.user;
-  const query_id = req.params.id;
-  console.log(req.user);
-  console.log("id", id);
-  console.log("role", role);
-  console.log(title, description, type, status);
-  // if the id is not valid
-  const req_id = Number(req.params.id);
 
-  if (!Number.isInteger(req_id)) {
+  const { id, role } = req.user;
+
+  const issueId = Number(req.params.id);
+
+  // VALIDATE ISSUE ID
+  if (!Number.isInteger(issueId)) {
     return sendResponse(
       res,
       {
-        message: "Invalid Issue Id, Update Failed",
-        data: null,
+        message: "Invalid Issue Id",
         error: true,
       },
       400,
@@ -34,15 +30,22 @@ export const validateIssueUpdate = async (
   if (title && title.trim().length < 5) {
     return sendResponse(
       res,
-      { message: "Title must be at least 5 characters", error: true },
+      {
+        message: "Title must be at least 5 characters",
+        error: true,
+      },
       400,
     );
   }
+
   // DESCRIPTION VALIDATION
   if (description && description.trim().length < 20) {
     return sendResponse(
       res,
-      { message: "Description must be at least 20 characters", error: true },
+      {
+        message: "Description must be at least 20 characters",
+        error: true,
+      },
       400,
     );
   }
@@ -51,7 +54,10 @@ export const validateIssueUpdate = async (
   if (type && !Object.values(ISSUE_TYPE).includes(type)) {
     return sendResponse(
       res,
-      { message: "Invalid Issue Type Provided", error: true },
+      {
+        message: "Invalid Issue Type",
+        error: true,
+      },
       400,
     );
   }
@@ -60,49 +66,52 @@ export const validateIssueUpdate = async (
   if (status && !Object.values(ISSUE_STATUS).includes(status)) {
     return sendResponse(
       res,
-      { message: "Invalid Issue Status Provided", error: true },
+      {
+        message: "Invalid Issue Status",
+        error: true,
+      },
       400,
     );
   }
 
-  const issue = await issuesService.getIssueById(Number(query_id));
+  const issue = await issuesService.getIssueById(issueId);
 
   if (!issue) {
     return sendResponse(
       res,
       {
-        message: "Bad Request, Issue doesn't Exist",
+        message: "Issue not found",
         error: true,
       },
-      401,
+      404,
     );
   }
 
-  //console.log("issue: ", issue);
-  // if a contributor is trying to update an issue that is not created by them
-  if (issue && role === USERROLE.CONTRIBUTOR && issue.reporter.id !== id) {
+  // ONLY OWNER CONTRIBUTOR CAN UPDATE
+  if (role === USERROLE.CONTRIBUTOR && issue.reporter.id !== id) {
     return sendResponse(
       res,
       {
-        message: "Don't have enough priviledge to update or Conflict",
+        message: "Not authorized to update this issue",
+        error: true,
+      },
+      403,
+    );
+  }
+
+  // CONTRIBUTOR CANNOT UPDATE CLOSED ISSUES
+  if (role === USERROLE.CONTRIBUTOR && issue.status !== ISSUE_STATUS.OPEN) {
+    return sendResponse(
+      res,
+      {
+        message: "Issue is no longer open",
         error: true,
       },
       409,
     );
   }
 
-  // if a contributor is trying to update an issue that is not open any more
-  if (issue.status !== ISSUE_STATUS.OPEN && role === USERROLE.CONTRIBUTOR) {
-    return sendResponse(
-      res,
-      {
-        message:
-          "Don't have enough priviledge to update or issue not open anymore ",
-        error: true,
-      },
-      409,
-    );
-  }
+  next();
 
   next();
 };

@@ -93,22 +93,9 @@ export const getOneIssueById = async (req: Request, res: Response) => {
 };
 
 export const updateIssueById = async (req: Request, res: Response) => {
-  //console.log(req);
-
   try {
     const id = Number(req.params.id);
 
-    // if (!Number.isInteger(id)) {
-    //   return sendResponse(
-    //     res,
-    //     {
-    //       message: "Invalid Issue Id, Update Failed",
-    //       data: null,
-    //       error: true,
-    //     },
-    //     400,
-    //   );
-    // }
     const { title, description, type, status } = req.body;
 
     const output = await issuesService.updateIssueById({
@@ -142,4 +129,31 @@ export const updateIssueById = async (req: Request, res: Response) => {
   }
 
   //res.status(200).json({ message: "updating an issue" });
+};
+
+export const deleteOneIssueById = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+
+    const output = await issuesService.deleteIssueById(id);
+
+    if (!output)
+      return sendResponse(
+        res,
+        { message: "Issue was not found, delete Failed", error: true },
+        404,
+      );
+
+    return sendResponse(
+      res,
+      { message: "Issue deleted successfully", error: false },
+      200,
+    );
+  } catch (error) {
+    return sendResponse(
+      res,
+      { message: "Failed to fetch", data: error, error: true },
+      500,
+    );
+  }
 };

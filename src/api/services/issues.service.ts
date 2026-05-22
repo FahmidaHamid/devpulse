@@ -179,6 +179,26 @@ class IssueRelateService {
     }
     return result.rows[0];
   }
+
+  async deleteIssueById(id: number) {
+    const query = `
+    DELETE FROM issues
+    WHERE id = $1
+    RETURNING *;
+  `;
+
+    const values = [id];
+
+    const result = await pool.query(query, values);
+
+    console.log("Deleted outcome:", result.rows);
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    return result.rows[0];
+  }
 }
 
 export default new IssueRelateService();
